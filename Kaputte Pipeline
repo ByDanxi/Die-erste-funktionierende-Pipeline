@@ -1,44 +1,17 @@
 stages:
-  - install
-  - lint
-  - build
-  - test
-  - deploy
-
-install-job:
-  stage: install
-  script:
-    - echo "Abhängigkeiten werden installiert"
-    - mkdir node_modules
-    - echo "Installation abgeschlossen"
-
-lint-job:
-stage: lint
-script:
-  - echo "Code wird geprüft"
-  - echo "Keine Syntaxfehler gefunden"
+- build
+- test
 
 build-job:
   stage: build
+  tags:
+  - docker
   script:
-    - echo "Build startet"
-    - mkdir public
-    echo "<h1>Meine Website</h1>" > public/index.html
-  artifacts:
-    paths:
-      - public/
+    - echo "Build wird auf Docker Runner ausgeführt"
 
 test-job:
-  stage: testing
-  script:
-    - echo "Tests starten"
-    - test -f public/index.html
-    - grep "Meine Website" public/index.html
-    - echo "Tests erfolgreich"
-
-deploy-job:
-  stage: deploy
-  script:
-    - echo "Deployment wird vorbereitet"
-    - echo "Website könnte jetzt veröffentlicht werden"
-  when: manual
+stage: test
+tags:
+- shell
+script:
+  - echo "Test wird auf Shell Runner ausgeführt"
